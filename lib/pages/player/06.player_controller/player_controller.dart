@@ -1,27 +1,42 @@
+import 'package:audioplayers/audioplayers_api.dart';
 import 'package:clone_flo/getx/controller.dart';
 import 'package:clone_flo/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
-class PlayerController extends StatelessWidget {
+class PlayerController extends StatefulWidget {
   const PlayerController({Key? key}) : super(key: key);
 
-  static final Controller controller = Get.put(Controller());
+  @override
+  State<PlayerController> createState() => _PlayerControllerState();
+}
 
-  void onTapDebug() async {
-    int currentPosition =
-        await controller.audioPlayer.value.getCurrentPosition();
-    print(currentPosition);
+class _PlayerControllerState extends State<PlayerController> {
+  final Controller controller = Get.put(Controller());
+
+  PlayerState playerState = PlayerState.STOPPED;
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller.audioPlayer.value.onPlayerStateChanged
+        .listen((PlayerState state) {
+      setState(() {
+        playerState = state;
+      });
+    });
   }
 
   void onTapPlayOrPause() async {
-    controller.onPlaying.value = !controller.onPlaying.value;
-
-    if (controller.onPlaying.value) {
-      await controller.audioPlayer.value.resume();
-    } else {
+    if (playerState == PlayerState.PLAYING) {
       await controller.audioPlayer.value.pause();
+      // ? 재생 마치고 나면 다시 재생이 안 됨
+      // } else if (playerState == PlayerState.STOPPED) {
+      //   await controller.audioPlayer.value.play();
+    } else {
+      await controller.audioPlayer.value.resume();
     }
   }
 
@@ -31,23 +46,22 @@ class PlayerController extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget>[
         GestureDetector(
-            onTap: onTapDebug,
             child: const FaIcon(
-              FontAwesomeIcons.sync,
-              color: FloColors.white,
-            )),
+          FontAwesomeIcons.sync,
+          color: FloColors.white,
+        )),
         const FaIcon(
           FontAwesomeIcons.stepBackward,
           color: FloColors.white,
         ),
         GestureDetector(
           onTap: onTapPlayOrPause,
-          child: Obx(() => FaIcon(
-                controller.onPlaying.value
-                    ? FontAwesomeIcons.pause
-                    : FontAwesomeIcons.play,
-                color: FloColors.white,
-              )),
+          child: FaIcon(
+            playerState == PlayerState.PLAYING
+                ? FontAwesomeIcons.pause
+                : FontAwesomeIcons.play,
+            color: FloColors.white,
+          ),
         ),
         const FaIcon(
           FontAwesomeIcons.stepForward,
