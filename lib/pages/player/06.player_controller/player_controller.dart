@@ -13,7 +13,7 @@ class PlayerController extends StatefulWidget {
 }
 
 class _PlayerControllerState extends State<PlayerController> {
-  final Controller controller = Get.put(Controller());
+  final Controller c = Get.put(Controller());
 
   PlayerState playerState = PlayerState.STOPPED;
 
@@ -21,8 +21,7 @@ class _PlayerControllerState extends State<PlayerController> {
   void initState() {
     super.initState();
 
-    controller.audioPlayer.value.onPlayerStateChanged
-        .listen((PlayerState state) {
+    c.audioPlayer.value.onPlayerStateChanged.listen((PlayerState state) {
       setState(() {
         playerState = state;
       });
@@ -31,12 +30,12 @@ class _PlayerControllerState extends State<PlayerController> {
 
   void onTapPlayOrPause() async {
     if (playerState == PlayerState.PLAYING) {
-      await controller.audioPlayer.value.pause();
-      // ? 재생 마치고 나면 다시 재생이 안 됨
-      // } else if (playerState == PlayerState.STOPPED) {
-      //   await controller.audioPlayer.value.play();
+      await c.audioPlayer.value.pause();
+    } else if (playerState == PlayerState.STOPPED ||
+        playerState == PlayerState.COMPLETED) {
+      await c.audioPlayer.value.play(c.song.value.file);
     } else {
-      await controller.audioPlayer.value.resume();
+      await c.audioPlayer.value.resume();
     }
   }
 
