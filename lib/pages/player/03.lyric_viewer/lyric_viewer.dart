@@ -13,7 +13,7 @@ class LyricViewer extends StatefulWidget {
 }
 
 class _LyricViewerState extends State<LyricViewer> {
-  Controller controller = Get.put(Controller());
+  Controller c = Get.put(Controller());
 
   String currentLyric = "";
   String nextLyric = "";
@@ -22,7 +22,7 @@ class _LyricViewerState extends State<LyricViewer> {
   void initState() {
     super.initState();
 
-    controller.audioPlayer.value.onAudioPositionChanged.listen((Duration d) {
+    c.audioPlayer.value.onAudioPositionChanged.listen((Duration d) {
       // * 재생위치가 변경될 때마다 아래 실행
 
       setState(() {
@@ -39,17 +39,17 @@ class _LyricViewerState extends State<LyricViewer> {
   }
 
   String getLyricFromMap(int index) {
-    if (index < 0 || index >= controller.song.value.lyricTimeList.length) {
+    if (index < 0 || index >= c.song.value.lyricTimeList.length) {
       return '';
     }
-    int key = controller.song.value.lyricTimeList[index];
+    int key = c.song.value.lyricTimeList[index];
 
-    return controller.song.value.lyricMap[key.toString()] ?? '';
+    return c.song.value.lyricMap[key.toString()] ?? '';
   }
 
   // * 현재 시간값에 대해서, 다음에 표시할 가사의 index를 반환함
   int getNextLyricIndex(int value) {
-    final list = controller.song.value.lyricTimeList;
+    final list = c.song.value.lyricTimeList;
 
     int result = 0;
     for (var i = 0; i < list.length; i++) {

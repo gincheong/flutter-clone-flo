@@ -20,7 +20,7 @@ class SongInfo extends StatefulWidget {
 }
 
 class _SongInfoState extends State<SongInfo> {
-  final Controller controller = Get.put(Controller());
+  final Controller c = Get.put(Controller());
 
   @override
   void initState() {
@@ -38,8 +38,8 @@ class _SongInfoState extends State<SongInfo> {
       ISong result =
           ISong.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
 
-      controller.song.value = result;
-      controller.audioPlayer.value.setUrl(result.file);
+      c.song.value = result;
+      c.audioPlayer.value.setUrl(result.file);
     } else {
       throw HttpException('statusCode: $response.statusCode');
     }
@@ -51,16 +51,16 @@ class _SongInfoState extends State<SongInfo> {
       // 노래 제목
       Container(
           margin: EdgeInsets.only(top: verticalScale(80)),
-          child: Obx(() => Text(controller.song.value.title,
-              style: SongInfoStyles.songTitle))),
+          child: Obx(
+              () => Text(c.song.value.title, style: SongInfoStyles.songTitle))),
       // 아티스트명
       Container(
         margin: EdgeInsets.only(top: verticalScale(30)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Obx(() => Text(controller.song.value.singer,
-                style: SongInfoStyles.artistName)),
+            Obx(() =>
+                Text(c.song.value.singer, style: SongInfoStyles.artistName)),
             Container(
                 margin: EdgeInsets.only(left: scale(20)),
                 child: const FaIcon(FontAwesomeIcons.chevronRight,
@@ -72,9 +72,9 @@ class _SongInfoState extends State<SongInfo> {
       Container(
           margin: EdgeInsets.only(top: verticalScale(50)),
           child: Obx(
-            () => controller.song.value.image.isNotEmpty
+            () => c.song.value.image.isNotEmpty
                 ? Image(
-                    image: NetworkImage(controller.song.value.image),
+                    image: NetworkImage(c.song.value.image),
                     width: scale(800),
                     height: scale(800),
                   )
