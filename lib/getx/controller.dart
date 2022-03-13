@@ -14,4 +14,5 @@ class Controller extends GetxController {
       .obs;
 
   var audioPlayer = AudioPlayer().obs;
+  var currentLyricIndex = 0.obs;
 }
