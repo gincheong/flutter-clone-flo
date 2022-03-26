@@ -10,5 +10,8 @@ var screenSize = window.physicalSize / pixelRatio;
 var screenWidth = screenSize.width;
 var screenHeight = screenSize.height;
 
+var fullWidth = screenWidth;
+var fullHeight = screenHeight;
+
 double scale(num size) => (screenWidth / baseWidth) * size;
 double verticalScale(num size) => (screenHeight / baseHeight) * size;

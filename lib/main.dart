@@ -1,4 +1,4 @@
-import 'package:clone_flo/pages/player/player.dart';
+import 'package:clone_flo/pages/home/home.dart';
 import 'package:clone_flo/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -27,12 +27,7 @@ class MyApp extends StatelessWidget {
           highlightColor: FloColors.transparent,
         ),
         home: Builder(builder: (BuildContext context) {
-          // * get status bar height (on mobile)
-          final double statusBarHeight = MediaQuery.of(context).padding.top;
-
-          return Container(
-              margin: EdgeInsets.only(top: statusBarHeight),
-              child: const PlayerPage());
+          return const HomePage();
         }));
   }
 }
