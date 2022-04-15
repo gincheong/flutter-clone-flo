@@ -15,7 +15,7 @@ class HeaderSwiper extends StatefulWidget {
 
 class _HeaderSwiperState extends State<HeaderSwiper> {
   // * state
-  int pageViewIndex = 999;
+  int pageViewIndex = 0;
 
   final List<Color> containerColors = [
     FloColors.blue,
@@ -54,6 +54,7 @@ class _HeaderSwiperState extends State<HeaderSwiper> {
                 // ! "맨 왼쪽" 항목에 언젠간 도달하게 되어있음
                 controller: PageController(initialPage: pageViewIndex),
                 onPageChanged: onPageChanged,
+                itemCount: containerColors.length,
                 itemBuilder: (context, index) {
                   return SwiperContent(
                     title: containerTitles[index % containerTitles.length],

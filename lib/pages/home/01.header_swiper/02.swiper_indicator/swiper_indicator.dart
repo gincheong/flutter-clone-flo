@@ -17,12 +17,12 @@ class SwiperIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: const EdgeInsets.only(top: 10),
+        margin: const EdgeInsets.only(top: 10, bottom: 20),
         child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: Iterable<int>.generate(pageCount).map((idx) {
               return Container(
-                margin: const EdgeInsets.only(left: 5, right: 5),
+                margin: EdgeInsets.only(left: scale(23), right: scale(23)),
                 width: isActive(idx) ? 10 : 5,
                 height: isActive(idx) ? 10 : 5,
                 decoration: BoxDecoration(
